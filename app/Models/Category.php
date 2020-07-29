@@ -11,5 +11,5 @@ class Category extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['category_name', 'active'];
+    protected $fillable = ['category_name', 'slug', 'active'];
 }
