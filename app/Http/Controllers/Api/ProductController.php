@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\ProductFilter;
+use App\Http\Requests\ProductResquest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +16,8 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @apiResource ProductResource
+     * @apiModel Product
      * @param Request $request
      * @return AnonymousResourceCollection
      */
@@ -31,17 +34,23 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiResource ProductResource
+     * @apiModel Product
+     * @param ProductResquest $request
+     * @return ProductResource
      */
-    public function store(Request $request)
+    public function store(ProductResquest $request)
     {
-        //
+        $product = Product::create($request->all());
+        $product->refresh();
+        return new ProductResource($product);
     }
 
     /**
      * Display the specified resource.
      *
+     * @apiResource ProductResource
+     * @apiModel Product
      * @param Product $product
      * @return ProductResource
      */
