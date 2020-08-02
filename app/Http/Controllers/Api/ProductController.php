@@ -3,18 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\ProductFilter;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filter = app(ProductFilter::class);
+        $query = Product::query();
+        $query = $this->onlyTrashedIfRequested($request, $query);
+        $filterQuery = $query->filtered($filter);
+        $products = $filter->hasFilterParameter('all') ? $filterQuery->get() : $filterQuery->paginate(5);
+        return ProductResource::collection($products);
     }
 
     /**
@@ -60,5 +71,18 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     * @param Builder $query
+     * @return Builder
+     */
+    private function onlyTrashedIfRequested(Request $request, Builder $query)
+    {
+        if ($request->get('trashed') == 1) {
+            $query = $query->onlyTrashed();
+        }
+        return $query;
     }
 }
