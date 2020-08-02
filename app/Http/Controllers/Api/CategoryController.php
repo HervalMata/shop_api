@@ -14,6 +14,17 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      *
      * @return AnonymousResourceCollection
+     * @response {
+     *  "id" : 1,
+     *  "category_name" : "Laços",
+     *  "slug" : "lacos",
+     *  "active" : true,
+     *  "created_at" : "2020-07-29 20:00",
+     *  "updated_at" : "2020-07-29 20:00",
+     *  }
+     * @response 404 {
+     *  "message" : "Não existem categorias cadastradas"
+     * }
      */
     public function index()
     {
@@ -35,12 +46,14 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiResource CategoryResource
+     * @apiModel Category
+     * @param Category $category
+     * @return CategoryResource
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return new CategoryResource($category);
     }
 
     /**
