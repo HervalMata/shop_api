@@ -23,4 +23,9 @@ class Category extends Model
             $category->slug = Str::slug($category->category_name);
         });
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
