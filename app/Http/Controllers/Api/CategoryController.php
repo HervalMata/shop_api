@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Filters\CategoryFilter;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
@@ -24,9 +25,11 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        $filter = app(CategoryFilter::class);
         $query = Category::query();
         $query = $this->onlyTrashedIfRequested($request, $query);
-        $categories = $query->paginate(5);
+        $filterQuery = $query->filtered($filter);
+        $categories = $filter->hasFilterParameter() ? $filterQuery->get() : $filterQuery->paginate(5);
         return CategoryResource::collection($categories);
     }
 
