@@ -23,4 +23,8 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
     Route::apiResources([
         'categories' => 'CategoryController'
     ]);
+    Route::patch('products/{product}/restore', 'ProductController@restore');
+    Route::apiResources([
+        'products' => 'ProductController'
+    ]);
 });
