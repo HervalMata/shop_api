@@ -24,6 +24,7 @@ $factory->define(Product::class, function () use ($faker) {
         'featured' => $faker->numberBetween(0, 1),
         'active' => $faker->numberBetween(0, 1),
         'photo' => $faker->imageUrl(),
+        'category_id' => $category->id,
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
     ];
