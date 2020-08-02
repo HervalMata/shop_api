@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,17 +16,8 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      *
      * @return AnonymousResourceCollection
-     * @response {
-     *  "id" : 1,
-     *  "category_name" : "Laços",
-     *  "slug" : "lacos",
-     *  "active" : true,
-     *  "created_at" : "2020-07-29 20:00",
-     *  "updated_at" : "2020-07-29 20:00",
-     *  }
-     * @response 404 {
-     *  "message" : "Não existem categorias cadastradas"
-     * }
+     * @apiResource CategoryResource
+     * @apiModel Category
      */
     public function index()
     {
@@ -34,13 +27,17 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiResource CategoryResource
+     * @apiModel Category
+     * @param CategoryRequest $request
+     * @return CategoryResource
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        //
+        $request['slug'] = Str::slug($request->category_name);
+        $category = Category::create($request->all());
+        $category->refresh();
+        return new CategoryResource($category);
     }
 
     /**
