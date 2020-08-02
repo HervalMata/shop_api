@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('slug');
             $table->string('product_code');
             $table->text('description');
-            $table->integer('amount')->default(1);
+            $table->integer('stock')->default(1);
             $table->decimal('price', 12, 2);
             $table->boolean('featured')->default(1);
             $table->boolean('active')->default(1);
