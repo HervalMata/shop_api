@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -21,9 +22,11 @@ class CategoryController extends Controller
      * @apiResource CategoryResource
      * @apiModel Category
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::paginate(5);
+        $query = Category::query();
+        $query = $this->onlyTrashedIfRequested($request, $query);
+        $categories = $query->paginate(5);
         return CategoryResource::collection($categories);
     }
 
@@ -83,5 +86,28 @@ class CategoryController extends Controller
     {
         $category->delete();
         return response()->json([], 204);
+    }
+
+    /**
+     * @param Category $category
+     * @return JsonResponse
+     */
+    public function restore(Category $category)
+    {
+        $category->restore();
+        return response()->json([], 204);
+    }
+
+    /**
+     * @param Request $request
+     * @param Builder $query
+     * @return Builder
+     */
+    private function onlyTrashedIfRequested(Request $request, Builder $query)
+    {
+        if ($request->get('trashed') == 1) {
+            $query = $query->onlyTrashed();
+        }
+        return $query;
     }
 }

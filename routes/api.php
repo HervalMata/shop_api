@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function() {
+    Route::patch('categories/{category}/restore', 'CategoryController@restore');
     Route::apiResources([
         'categories' => 'CategoryController'
     ]);
