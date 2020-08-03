@@ -15,6 +15,7 @@ class MaterialResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'material_name' => $this->material_name,
             'slug' => $this->slug,
             'created_at' => $this->created_at,

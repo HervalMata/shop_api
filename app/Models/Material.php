@@ -15,8 +15,8 @@ class Material extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($color) {
-            $color->slug = Str::slug($color->color_name);
+        static::creating(function ($material) {
+            $material->slug = Str::slug($material->material_name);
         });
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 $faker = Factory::create('pt_BR');
 
 $factory->define(Material::class, function () use ($faker) {
-    $name = $faker->name;
+    $name = $faker->word;
     return [
         'material_name' => $name,
         'slug' => Str::slug($name)
