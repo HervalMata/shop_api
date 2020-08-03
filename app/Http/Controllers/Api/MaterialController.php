@@ -35,13 +35,12 @@ class MaterialController extends Controller
      * @apiResource MaterialResource
      * @apiModel Material
      * @param MaterialRequest $request
-     * @param Material $material
      * @return MaterialResource
      */
-    public function store(MaterialRequest $request, Material $material)
+    public function store(MaterialRequest $request)
     {
-        $material->fill($request->all());
-        $material->save();
+        $material = Material::create($request->all());
+        $material->refresh();
         return new MaterialResource($material);
     }
 
@@ -61,13 +60,17 @@ class MaterialController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiResource MaterialResource
+     * @apiModel Material
+     * @param MaterialRequest $request
+     * @param Material $material
+     * @return MaterialResource
      */
-    public function update(Request $request, $id)
+    public function update(MaterialRequest $request, Material $material)
     {
-        //
+        $material->fill($request->all());
+        $material->save();
+        return new MaterialResource($material);
     }
 
     /**
