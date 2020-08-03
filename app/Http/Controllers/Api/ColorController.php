@@ -7,7 +7,7 @@ use App\Http\Filters\ColorFilter;
 use App\Http\Requests\ColorResquest;
 use App\Http\Resources\ColorResource;
 use App\Models\Color;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -77,12 +77,14 @@ class ColorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Color $color
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Color $color)
     {
-        //
+        $color->delete();
+        return response()->json([], 204);
     }
 
 }
