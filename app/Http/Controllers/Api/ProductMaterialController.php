@@ -45,11 +45,13 @@ class ProductMaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @param Material $material
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Product $product, Material $material)
     {
-        //
+        $product->materials()->detach($material->id);
+        return response()->json([], 204);
     }
 }
