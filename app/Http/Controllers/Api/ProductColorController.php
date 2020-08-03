@@ -37,4 +37,15 @@ class ProductColorController extends Controller
         $colors = Color::whereIn('id', $colorsAttachedId)->get();
         return $colors->count() ? response()->json(new ProductColorResource($product), 201) : [];
     }
+
+    /**
+     * @param Product $product
+     * @param Color $color
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Product $product, Color $color)
+    {
+        $product->colors()->detach($color->id);
+        return response()->json([], 204);
+    }
 }
