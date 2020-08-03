@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductMaterialResource;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductMaterialController extends Controller
@@ -10,11 +12,14 @@ class ProductMaterialController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @apiResource ProductMaterialResource
+     * @apiModel Product
+     * @param Product $product
+     * @return ProductMaterialResource
      */
-    public function index()
+    public function index(Product $product)
     {
-        //
+        return new ProductMaterialResource($product);
     }
 
     /**
