@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\ColorFilter;
+use App\Http\Requests\ColorResquest;
 use App\Http\Resources\ColorResource;
 use App\Models\Color;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,12 +34,16 @@ class ColorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiResource ColorResource
+     * @apiModel Color
+     * @param ColorResquest $request
+     * @return ColorResource
      */
-    public function store(Request $request)
+    public function store(ColorResquest $request)
     {
-        //
+        $category = Color::create($request->all());
+        $category->refresh();
+        return new ColorResource($category);
     }
 
     /**
@@ -57,6 +62,8 @@ class ColorController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @apiResource ColorResource
+     * @apiModel Color
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
