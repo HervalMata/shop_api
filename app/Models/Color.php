@@ -9,5 +9,5 @@ class Color extends Model
 {
     use Filterable;
 
-    protected $fillable = ['color_name'];
+    protected $fillable = ['color_name', 'slug'];
 }
