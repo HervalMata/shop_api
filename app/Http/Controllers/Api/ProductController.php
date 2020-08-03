@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\ProductFilter;
-use App\Http\Requests\ProductResquest;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,10 +39,10 @@ class ProductController extends Controller
      *
      * @apiResource ProductResource
      * @apiModel Product
-     * @param ProductResquest $request
+     * @param ProductRequest $request
      * @return ProductResource
      */
-    public function store(ProductResquest $request)
+    public function store(ProductRequest $request)
     {
         $product = Product::create($request->all());
         $product->refresh();
@@ -67,11 +67,11 @@ class ProductController extends Controller
      *
      * @apiResource ProductResource
      * @apiModel Product
-     * @param ProductResquest $request
+     * @param ProductRequest $request
      * @param Product $product
      * @return ProductResource
      */
-    public function update(ProductResquest $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         $product->fill($request->all());
         $product->save();

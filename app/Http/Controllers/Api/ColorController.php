@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\ColorFilter;
-use App\Http\Requests\ColorResquest;
+use App\Http\Requests\ColorRequest;
 use App\Http\Resources\ColorResource;
 use App\Models\Color;
 use Illuminate\Http\JsonResponse;
@@ -35,10 +35,10 @@ class ColorController extends Controller
      *
      * @apiResource ColorResource
      * @apiModel Color
-     * @param ColorResquest $request
+     * @param ColorRequest $request
      * @return ColorResource
      */
-    public function store(ColorResquest $request)
+    public function store(ColorRequest $request)
     {
         $category = Color::create($request->all());
         $category->refresh();
@@ -63,11 +63,11 @@ class ColorController extends Controller
      *
      * @apiResource ColorResource
      * @apiModel Color
-     * @param ColorResquest $request
+     * @param ColorRequest $request
      * @param Color $color
      * @return ColorResource
      */
-    public function update(ColorResquest $request, Color $color)
+    public function update(ColorRequest $request, Color $color)
     {
         $color->fill($request->all());
         $color->save();
