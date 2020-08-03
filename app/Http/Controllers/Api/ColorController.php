@@ -25,7 +25,6 @@ class ColorController extends Controller
     {
         $filter = app(ColorFilter::class);
         $query = Color::query();
-        $query = $this->onlyTrashedIfRequested($request, $query);
         $filterQuery = $query->filtered($filter);
         $color = $request->has('all') ? $filterQuery->get() : $filterQuery->paginate(5);
         return ColorResource::collection($color);
@@ -64,13 +63,15 @@ class ColorController extends Controller
      *
      * @apiResource ColorResource
      * @apiModel Color
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ColorResquest $request
+     * @param Color $color
+     * @return ColorResource
      */
-    public function update(Request $request, $id)
+    public function update(ColorResquest $request, Color $color)
     {
-        //
+        $color->fill($request->all());
+        $color->save();
+        return new ColorResource($color);
     }
 
     /**
@@ -84,16 +85,4 @@ class ColorController extends Controller
         //
     }
 
-    /**
-     * @param Request $request
-     * @param Builder $query
-     * @return Builder
-     */
-    private function onlyTrashedIfRequested(Request $request, Builder $query)
-    {
-        if ($request->get('trashed') == 1) {
-            $query = $query->onlyTrashed();
-        }
-        return $query;
-    }
 }
