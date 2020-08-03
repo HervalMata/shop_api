@@ -19,4 +19,9 @@ class Material extends Model
             $material->slug = Str::slug($material->material_name);
         });
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }
