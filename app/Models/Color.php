@@ -19,4 +19,9 @@ class Color extends Model
             $color->slug = Str::slug($color->color_name);
         });
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }
