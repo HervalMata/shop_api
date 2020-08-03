@@ -28,8 +28,9 @@ class ProductController extends Controller
         $filter = app(ProductFilter::class);
         $query = Product::query();
         $query = $this->onlyTrashedIfRequested($request, $query);
-        $filterQuery = $query->filtered($filter);
-        $products = $filter->hasFilterParameter('all') ? $filterQuery->get() : $filterQuery->paginate(5);
+        /** @var Builder $filterQuery */
+        $filterQuery = $query->with('category')->filtered($filter);
+        $products = $filter->hasfilterParameter() ? $filterQuery->get() : $filterQuery->paginate(10);
         return ProductResource::collection($products);
     }
 

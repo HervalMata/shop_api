@@ -5,6 +5,7 @@ namespace App\Http\Filters;
 
 
 use Mnabialek\LaravelEloquentFilter\Filters\SimpleQueryFilter;
+use PhpParser\Builder;
 
 class ProductFilter extends SimpleQueryFilter
 {
@@ -35,6 +36,10 @@ class ProductFilter extends SimpleQueryFilter
         return $contains;
     }
 
+    /**
+     * @param Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function apply($query)
     {
         $query = $query->select('products.*')
