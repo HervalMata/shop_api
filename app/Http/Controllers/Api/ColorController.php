@@ -15,6 +15,8 @@ class ColorController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @apiResource ColorResource
+     * @apiModel Color
      * @param Request $request
      * @return AnonymousResourceCollection
      */
@@ -42,12 +44,14 @@ class ColorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @apiResource ColorResource
+     * @apiModel Color
+     * @param Color $color
+     * @return ColorResource
      */
-    public function show($id)
+    public function show(Color $color)
     {
-        //
+        return new ColorResource($color);
     }
 
     /**
