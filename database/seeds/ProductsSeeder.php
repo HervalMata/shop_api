@@ -17,7 +17,7 @@ class ProductsSeeder extends Seeder
         factory(Product::class, 100)
             ->create()
             ->each(function (Product $product) use ($colors) {
-                for ($i = 1; $i < 3; $i++) {
+                for ($i = 1; $i < 4; $i++) {
                     $colorId = $colors->random()->id;
                     $product->colors()->attach($colorId);
                 }
