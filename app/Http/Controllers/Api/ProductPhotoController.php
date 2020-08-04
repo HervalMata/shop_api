@@ -58,7 +58,7 @@ class ProductPhotoController extends Controller
      *
      * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return ProductPhotoResource
      */
     public function update(ProductPhotoRequest $request, Product $product, ProductPhoto $photo )
     {
@@ -71,11 +71,13 @@ class ProductPhotoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(ProductPhoto $photo, Product $product)
     {
-        //
+        $this->assertProductPhoto($photo, $product);
+        $photo->deleteWithPhoto();
+        return response()->json([], 204);
     }
 
     private function assertProductPhoto(ProductPhoto $photo, Product $product)
