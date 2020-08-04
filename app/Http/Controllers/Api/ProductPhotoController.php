@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductPhotoRequest;
 use App\Http\Resources\ProductPhotoCollection;
 use App\Http\Resources\ProductPhotoResource;
 use App\Models\Product;
@@ -27,12 +28,14 @@ class ProductPhotoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @apiModel Product
+     * @param ProductPhotoRequest $request
+     * @param Product $product
+     * @return void
      */
-    public function store(Request $request)
+    public function store(ProductPhotoRequest $request, Product $product)
     {
-        //
+        ProductPhoto::createWhithPhotoFiles($product->id, $request->photos);
     }
 
     /**
@@ -55,7 +58,7 @@ class ProductPhotoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
