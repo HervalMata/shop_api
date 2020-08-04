@@ -49,9 +49,7 @@ class ProductPhotoController extends Controller
      */
     public function show(Product $product, ProductPhoto $photo)
     {
-        if ($photo->product_id != $product->id) {
-            abort(404);
-        }
+        $this->assertProductPhoto($photo, $product);
         return new ProductPhotoResource($photo);
     }
 
@@ -62,9 +60,11 @@ class ProductPhotoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductPhotoRequest $request, Product $product, ProductPhoto $photo )
     {
-        //
+        $this->assertProductPhoto($photo, $product);
+        $photo = $photo->updateWithPhoto($request->photo);
+        return new ProductPhotoResource($photo);
     }
 
     /**
@@ -76,5 +76,12 @@ class ProductPhotoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function assertProductPhoto(ProductPhoto $photo, Product $product)
+    {
+        if ($photo->product_id != $product->id) {
+            abort(404);
+        }
     }
 }
